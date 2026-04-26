@@ -1,0 +1,14 @@
+Datamodule:
+  kwargs:
+    class_name: dataloader.datamodules.domainsplit_datamodule.DomainSplitDataModule
+    train_split_path: ${DATA_DIR}/AFDB/splits/train_repid-entryid.tsv
+    val_split_path: ${DATA_DIR}/AFDB/splits/valid_repid-entryid.tsv
+    test_split_path: ${DATA_DIR}/AFDB/splits/test_repid-entryid_1k.tsv
+    seq_lmdb_path: ${DATA_DIR}/AFDB/LMDB_seqonly
+    domain_lmdb_path: ${DATA_DIR}/AFDB/LMDB_uid2domain_info
+    cluster_lmdb_path: ${DATA_DIR}/AFDB/LMDB_train_cluster
+    num_workers_per_gpu: 8
+    per_gpu_batchsize: 64
+    eval_batch_size: 64
+    max_aa_seq_len: 1024
+    shuffle_domain: true

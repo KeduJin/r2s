@@ -1,0 +1,16 @@
+Datamodule:
+  kwargs:
+    class_name: dataloader.datamodules.reaction_datamodule.ReactionDataModule
+    train_split_path: /jinkedu/enzyme-design/ReactZyme-main/data/positive_saprot.pt
+    val_split_path: null
+    test_split_path: /jinkedu/enzyme-design/ReactZyme-main/data/custom_reactions.pt
+    split_seed: 123
+    substrate_embedding_path: /jinkedu/enzyme-design/ReactZyme-main/data/custom_mat_substrate_embedding.pt
+    product_embedding_path: /jinkedu/enzyme-design/ReactZyme-main/data/custom_mat_product_embedding.pt
+    seq_embedding_path: null
+    max_reaction_atom_tokens: 256
+    target_seq_type: satoken
+    num_workers_per_gpu: 0
+    per_gpu_batchsize: 1
+    eval_batch_size: 1
+    max_aa_seq_len: 1024

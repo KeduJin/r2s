@@ -1,0 +1,70 @@
+Settings:
+  project_name: TED-DPLM
+  outdir: output
+  tags:
+  - AR
+  - Reaction2StructureAwareToken
+  - Qwen3ReactionDecoderOnly
+  - MATAtomTokens
+  - CELossOnly
+Model:
+  supports_gradient_checkpointing: false
+  kwargs:
+    class_name: models.Qwen3ReactionDecoderOnly.Qwen3ReactionDecoderOnly
+    qwen3_type: Qwen/Qwen3-100M
+    reaction_input_dim: 1024
+    reaction_hidden_dim: 768
+    reaction_num_heads: 8
+    reaction_dropout: 0.1
+    reaction_fusion_layers: 1
+    num_tokens_per_molecule: 16
+    compress_reaction: true
+    esm_tokenizer_name_or_path: /jinkedu/enzyme-design/Denovo-Pinal-main/checkpoints/SaProt
+  Optimizer_kwargs:
+    class_name: torch.optim.AdamW
+    lr: 0.0001
+    weight_decay: 0.01
+    betas:
+    - 0.9
+    - 0.98
+  Scheduler_kwargs:
+    class_name: utils.scheduler.get_cosine_with_hard_min_lr_schedule
+    num_warmup_steps: 1000
+    num_training_steps: 300000
+    min_lr_ratio: 0.1
+Datamodule:
+  kwargs:
+    class_name: dataloader.datamodules.reaction_datamodule.ReactionDataModule
+    train_split_path: /jinkedu/enzyme-design/ReactZyme-main/data/positive_saprot.pt
+    val_split_path: null
+    test_split_path: null
+    train_ratio: 0.8
+    val_ratio: 0.1
+    test_ratio: 0.1
+    split_seed: 123
+    substrate_embedding_path: /jinkedu/enzyme-design/ReactZyme-main/data/embedding/mat_substrate_embedding.pt
+    product_embedding_path: /jinkedu/enzyme-design/ReactZyme-main/data/embedding/mat_product_embedding.pt
+    seq_embedding_path: null
+    seq_embedding_lookup_max_len: 5000
+    max_reaction_atom_tokens: 256
+    target_seq_type: satoken
+    num_workers_per_gpu: 0
+    per_gpu_batchsize: 16
+    eval_batch_size: 16
+    max_aa_seq_len: 1024
+Trainer:
+  seed: 123
+  max_steps: 200000
+  max_epochs: -1
+  accumulate_grad_batches: 1
+  val_every_n_steps: 200
+  log_every_n_steps: 10
+  save_every_n_steps: 5000
+  val_before_train: true
+  watch_t1_t2_loss: false
+  cal_constant_loss: false
+  trackers:
+  - wandb
+  - tensorboard
+  kwargs:
+    class_name: experiments.experiments.R2S.R2S

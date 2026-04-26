@@ -1,0 +1,16 @@
+Datamodule:
+  kwargs:
+    class_name: dataloader.datamodules.reactionsplit_datamodule.ReactionSplitDataModule
+    train_split_path: ${REACTION2SEQ_DATA_DIR}/splits/train_repid-entryid.tsv
+    val_split_path: ${REACTION2SEQ_DATA_DIR}/splits/valid_repid-entryid.tsv
+    test_split_path: ${REACTION2SEQ_DATA_DIR}/splits/test_repid-entryid.tsv
+    seq_lmdb_path: ${REACTION2SEQ_DATA_DIR}/processed/LMDB_seqonly
+    reaction_lmdb_path: ${REACTION2SEQ_DATA_DIR}/processed/LMDB_reaction_smiles
+    raw_reaction_lmdb_path: ${REACTION2SEQ_DATA_DIR}/processed/LMDB_raw_reaction
+    source_lmdb_path: ${REACTION2SEQ_DATA_DIR}/processed/LMDB_source
+    cluster_lmdb_path: ${REACTION2SEQ_DATA_DIR}/processed/LMDB_train_cluster
+    num_workers_per_gpu: 8
+    per_gpu_batchsize: 32
+    eval_batch_size: 32
+    max_aa_seq_len: 1024
+    condition_max_len: 512

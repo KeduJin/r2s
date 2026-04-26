@@ -1,0 +1,53 @@
+Settings:
+  project_name: TED-DPLM
+  tags:
+  - DPLMUnconditional
+  - Diffusion
+  - ModelSize0_100-200M
+  outdir: output
+Model:
+  supports_gradient_checkpointing: false
+  kwargs:
+    class_name: models.DPLMUnconditional_wo_lossmask.DPLMUnconditional_wo_lossmask
+    dplm_type: airkingbd/dplm_150m
+    dplm_pretrain: false
+    weighting: linear
+    criterion_kwargs:
+      class_name: byprot.modules.cross_entropy.RDMCrossEntropyLoss
+      label_smoothing: 0.0
+      ignore_index: 1
+  Optimizer_kwargs:
+    class_name: deepspeed.ops.adam.FusedAdam
+    lr: 0.0001
+    weight_decay: 0.01
+    betas:
+    - 0.9
+    - 0.98
+  Scheduler_kwargs:
+    class_name: transformers.get_cosine_schedule_with_warmup
+    num_warmup_steps: 1000
+    num_training_steps: 1000000
+Datamodule:
+  kwargs:
+    class_name: dataloader.datamodules.ur50_datamodule.UniRefHFDataModule
+    data_dir: /storage/yuanfajieLab/yuanfajie/datasets/dplm_ur50
+    max_tokens: 131072
+    max_len: 1024
+    num_workers_per_gpu: 8
+    num_seqs: 40
+Trainer:
+  seed: 123
+  max_steps: 20000
+  max_epochs: -1
+  accumulate_grad_batches: 1
+  val_every_n_steps: 200
+  log_every_n_steps: 10
+  save_every_n_steps: 5000
+  val_before_train: false
+  watch_t1_t2_loss: false
+  cal_constant_loss: false
+  trackers:
+  - wandb
+  - tensorboard
+  kwargs:
+    class_name: experiments.experiments.D2S.D2S

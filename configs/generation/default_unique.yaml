@@ -1,0 +1,6 @@
+GenerationConfig:
+  max_length: 1024
+  do_sample: True
+
+GenerationMethod:
+  method: "generate_simple_with_unique_domain_pieces"  # 可选: "generate_simple" 或 "generate_simple_with_unique_domain_pieces" 对dynamic vocabulary（RAG）的模型有效

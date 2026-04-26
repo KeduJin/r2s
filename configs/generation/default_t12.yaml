@@ -1,0 +1,4 @@
+GenerationConfig:
+  max_length: 1024
+  do_sample: True
+  temperature: 1.2

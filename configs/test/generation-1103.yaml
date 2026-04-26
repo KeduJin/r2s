@@ -1,0 +1,7 @@
+Datamodule:
+  kwargs:
+    class_name: generation.data.generation_datamodule.GenerationDataModule
+    tsv_path: ${PROJ_DIR}/generation/data/1103-retrieval_results_2domains.tsv
+    num_workers_per_gpu: 8
+    per_gpu_batchsize: 64
+    eval_batch_size: 64
